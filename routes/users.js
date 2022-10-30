@@ -1,28 +1,22 @@
 import express from "express";
+import { v4 as uuid } from "uuid";
 
 const router = express.Router();
 
-const users = [
-	{
-		firstName: "John",
-		lastName: "Doe",
-		age: 25,
-	},
-	{
-		firstName: "Jane",
-		lastName: "Doe",
-		age: 19,
-	},
-];
+const users = [];
 
 router.get("/", (req, res) => {
-	console.log("users:", users);
-	res.send("Hello");
+	res.send(users);
 });
 
 router.post("/", (req, res) => {
-	console.log("POST ROUTE REACHED");
-	res.send("POST ROUTE REACHED");
+	const user = req.body;
+
+	users.push({ ...user, id: uuid() });
+
+	res.send(
+		`User with the name ${user.firstName} added to the databse!`
+	);
 });
 
 export default router;
